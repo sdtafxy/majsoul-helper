@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>MajsoulHelper</string>
+	<key>CFBundleDisplayName</key>
+	<string>雀魂助手</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.feng.majsoulhelper</string>
+	<key>CFBundleExecutable</key>
+	<string>MajsoulHelper</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<!-- 本地化声明（2026-10-18）：Sparkle 的更新窗口按
+	     Bundle.main.preferredLocalizations 选语言。之前没声明本地化，
+	     系统把这 app 当纯英文 → Sparkle 永远显示英文文案。
+	     这里的语言名要与 Sparkle.framework 内置的 lproj 对齐（zh_CN / zh_TW / zh_HK）。 -->
+	<key>CFBundleDevelopmentRegion</key>
+	<string>zh_CN</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>zh_CN</string>
+		<string>zh_TW</string>
+		<string>zh_HK</string>
+		<string>en</string>
+	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>本地自用工具，不对外分发</string>
+	<!-- Sparkle 更新（2026-10-16）。SUFeedURL 是发布后的正式地址；
+	     测试用 MJ_UPDATE_FEED 环境变量覆盖（UpdaterManager.feedURLString） -->
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/sdtafxy/majsoul-helper/main/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>1YI08DpbwJdDKdR0pQ9hwUrk+OowK7SjbIszSlAE3M4=</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUScheduledCheckInterval</key>
+	<integer>86400</integer>
+	<key>NSSupportsAutomaticTermination</key>
+	<false/>
+	<key>NSSupportsSuddenTermination</key>
+	<false/>
+</dict>
+</plist>

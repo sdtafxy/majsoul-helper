@@ -1,0 +1,6 @@
+.build/
+dist/
+Resources/vision/
+.workbuddy/
+.DS_Store
+*.log
