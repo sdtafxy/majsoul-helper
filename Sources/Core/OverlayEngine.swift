@@ -215,7 +215,6 @@ enum OverlayEngine {
     static func devScript() -> String? {
         let repo = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()   // Core
-            .deletingLastPathComponent()   // MajsoulHelper
             .deletingLastPathComponent()   // Sources
             .deletingLastPathComponent()   // <repo>
         let p = repo.deletingLastPathComponent()

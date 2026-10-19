@@ -18,7 +18,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Sparkle", package: "Sparkle")
             ],
-            path: "Sources/MajsoulHelper",
+            path: "Sources",
             swiftSettings: [.swiftLanguageMode(.v5)]
         )
     ]
