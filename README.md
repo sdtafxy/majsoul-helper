@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/platform-macOS%2014%2B-black?style=for-the-badge&logo=apple)
 ![Swift](https://img.shields.io/badge/swift-5.9-orange?style=for-the-badge&logo=swift)
-![Release](https://img.shields.io/badge/release-v0.1.0-4B8BBE?style=for-the-badge)
+![Release](https://img.shields.io/badge/release-v0.1.1-4B8BBE?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-3DA639?style=for-the-badge)
 [![Engine](https://img.shields.io/badge/engine-majsoul--vision-8A2BE2?style=for-the-badge)](https://github.com/sdtafxy/majsoul-vision)
 
