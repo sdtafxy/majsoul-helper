@@ -6,6 +6,10 @@ import AppKit
 /// - 内容：真实牌面分组（宝牌/手牌/副露/牌河），比主浮窗里更大。
 struct RecognitionWindowView: View {
     @ObservedObject var overlay: OverlayController
+    /// 观察 AppModel，设置里改外观（浮窗背景/牌面大小）时窗口立即重绘。
+    /// 之前是直接读 AppModel.shared.settings 的字面值，SwiftUI 观察不到，
+    /// 改设置后窗口一直保持旧外观，关掉再开（窗口只是 hide/show）也不变。
+    @ObservedObject var model: AppModel = .shared
     @Environment(\.colorScheme) private var sysScheme
 
     var body: some View {
@@ -16,9 +20,9 @@ struct RecognitionWindowView: View {
                 .padding(Theme.gap)
         }
         .frame(minWidth: 380, minHeight: 520)
-        .background(PanelBackground(mode: AppModel.shared.settings.panelBackground))
+        .background(PanelBackground(mode: model.settings.panelBackground))
         .environment(\.colorScheme,
-                     AppModel.shared.settings.panelBackground == "solid" ? .light : .dark)
+                     model.settings.panelBackground == "solid" ? .light : .dark)
         .clipShape(RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous))
         .overlay(
             ZStack {
