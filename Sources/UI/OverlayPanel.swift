@@ -123,7 +123,7 @@ struct OverlayPanelView: View {
             }
             .controlSize(.small)
             .disabled(ctrl.selectedWindowID == 0 || ctrl.status.isBusy)
-            .help("把「最近一次识别用的截图」+ 识别结果 JSON + 渲染图存到\n~/Downloads/MajsoulHelper-<时间戳>/，完成后在 Finder 中显示。\n★ 复用你刚识别的那张图，不是重新截——排查的就是你看到的那张。\n识别结果不对时，把整个文件夹发回来即可排查。")
+            .help("把「最近一次识别用的截图」+ 识别结果 JSON + 渲染图存到\n设置里指定的目录（默认 ~/Downloads）/MajsoulHelper-<时间戳>/，完成后在 Finder 中显示。\n★ 复用你刚识别的那张图，不是重新截——排查的就是你看到的那张。\n识别结果不对时，把整个文件夹发回来即可排查。")
 
             HStack(spacing: 14) {
                 Toggle("牌名", isOn: Binding(

@@ -364,7 +364,54 @@ struct SettingsView: View {
                     set: { v in model.updateSettings { $0.jpegQuality = v } }),
                           range: 0.5...1.0, step: 0.05,
                           text: String(format: "%.2f", model.settings.jpegQuality))
+
+                HStack(spacing: 10) {
+                    Text("排查包保存位置")
+                        .font(.system(size: 13))
+                    Spacer()
+                    Text(exportDirDisplay)
+                        .font(.system(size: 12))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Button("选择…") { pickExportDir() }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                    if !model.settings.debugExportDir.isEmpty {
+                        Button("恢复默认") {
+                            model.updateSettings { $0.debugExportDir = "" }
+                        }
+                        .buttonStyle(.borderless)
+                        .controlSize(.small)
+                    }
+                }
+                Text("识别结果不对时，导出的排查包会存放在这个目录下")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    /// 排查包目录的展示文本（空 = 默认 ~/Downloads）
+    private var exportDirDisplay: String {
+        let d = model.settings.debugExportDir
+        return d.isEmpty ? "~/Downloads" : d.replacingOccurrences(
+            of: FileManager.default.homeDirectoryForCurrentUser.path, with: "~")
+    }
+
+    private func pickExportDir() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.canCreateDirectories = true
+        panel.prompt = "使用此文件夹"
+        panel.message = "选择排查包的保存位置"
+        panel.directoryURL = model.settings.debugExportDir.isEmpty
+            ? FileManager.default.homeDirectoryForCurrentUser
+            : URL(fileURLWithPath: model.settings.debugExportDir)
+        if panel.runModal() == .OK, let url = panel.url {
+            model.updateSettings { $0.debugExportDir = url.path }
         }
     }
 

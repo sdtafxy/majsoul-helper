@@ -207,9 +207,11 @@ final class OverlayController: ObservableObject {
     func exportPackage() {
         let ts: Double = Date().timeIntervalSince1970
         let stamp: Int = Int(ts)
-        let dir: URL = URL(fileURLWithPath: NSHomeDirectory())
-            .appendingPathComponent("Downloads")
-            .appendingPathComponent("MajsoulHelper-" + String(stamp))
+        let custom = ConfigStore.shared.settings.debugExportDir
+        let root: URL = custom.isEmpty
+            ? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Downloads")
+            : URL(fileURLWithPath: custom)
+        let dir: URL = root.appendingPathComponent("MajsoulHelper-" + String(stamp))
 
         if let last = lastCaptureURL, FileManager.default.fileExists(atPath: last.path) {
             guard !busy else { Log.info("Overlay: 上一次还没跑完，跳过") ; return }

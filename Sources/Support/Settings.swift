@@ -73,6 +73,9 @@ struct Settings: Codable, Equatable {
     /// 浮窗背景效果：glass 墨璃（默认）/ solid 白底 / clear 通透
     var panelBackground: String = "glass"
 
+    /// 排查包保存目录。空字符串 = 默认的 ~/Downloads。
+    var debugExportDir: String = ""
+
     var isConfigured: Bool { !apiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
     // MARK: - 容错解码
@@ -108,6 +111,7 @@ struct Settings: Codable, Equatable {
         showRecognitionOnLaunch = try c.decodeIfPresent(Bool.self, forKey: .showRecognitionOnLaunch) ?? d.showRecognitionOnLaunch
         overlayTheme = try c.decodeIfPresent(OverlayTheme.self, forKey: .overlayTheme) ?? d.overlayTheme
         panelBackground = try c.decodeIfPresent(String.self, forKey: .panelBackground) ?? d.panelBackground
+        debugExportDir = try c.decodeIfPresent(String.self, forKey: .debugExportDir) ?? d.debugExportDir
     }
 }
 
