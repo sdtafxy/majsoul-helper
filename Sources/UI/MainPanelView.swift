@@ -56,8 +56,11 @@ struct MainPanelView: View {
                 }
         }
         // 跟随窗口宽度（原来固定 336：窗口拉到 630 时两侧留大片空白，
-        // 拉到最窄时又被 336 卡住，和识别窗口的最小宽度对不上）
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // 拉到最窄时又被 336 卡住，和识别窗口的最小宽度对不上）。
+        // minWidth/minHeight 同时写在内容层：borderless NSPanel 的
+        // contentMinSize 在用户拖拽时不一定生效，内容固有尺寸才是硬约束。
+        .frame(minWidth: 376, maxWidth: .infinity,
+               minHeight: 520, maxHeight: .infinity)
         .background(PanelBackground(mode: mode))
         // 墨璃=深色文字环境；白底=浅色；通透=跟随系统
         .environment(\.colorScheme, mode == "glass" ? .dark

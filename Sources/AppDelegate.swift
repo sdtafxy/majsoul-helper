@@ -84,6 +84,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         p.backgroundColor = .clear
         finishPanel(p)   // ★ layer 圆角 mask + window 投影（直角边框根治）
         p.contentMinSize = NSSize(width: 376, height: 520)
+        p.minSize = NSSize(width: 376, height: 520)   // borderless 面板用 minSize 才稳妥
         p.contentView = content
 
         let restored = p.setFrameUsingName("MajsoulHelperPanel")
