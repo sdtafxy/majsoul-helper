@@ -102,7 +102,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func buildRecognitionPanel() {
         let content = NSHostingView(rootView: RecognitionWindowView(overlay: overlayCtrl))
-        let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 430, height: 640),
+        // 初始宽度与主浮窗一致（630），避免两个窗口并排时宽度对不上
+        let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 630, height: 640),
                         styleMask: [.borderless, .nonactivatingPanel, .resizable],
                         backing: .buffered,
                         defer: false)

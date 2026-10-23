@@ -256,13 +256,11 @@ struct MainPanelView: View {
                               color: Theme.purpleBright) {
                 model.analyze(deep: true)
             }
-            .frame(width: 84)
 
             GhostActionButton(title: "识别", icon: "rectangle.grid.2x2",
                               color: Theme.tealBright) {
                 recognize()
             }
-            .frame(width: 84)
         }
         .padding(14)
     }

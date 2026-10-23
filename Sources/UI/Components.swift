@@ -195,6 +195,8 @@ struct MainActionButton: View {
     let title: String
     var icon: String
     var key: String? = nil
+    /// 渐变的起止色（默认蓝）；三个主次按钮统一用它表达各自的色相
+    var gradient: [Color] = [Theme.accentBright, Color(red: 0.239, green: 0.525, blue: 0.878)]
     var enabled: Bool = true
     var action: () -> Void
 
@@ -208,7 +210,6 @@ struct MainActionButton: View {
                 Text(title)
                     .font(.system(size: 13, weight: .bold))
                     .lineLimit(1)
-                Spacer(minLength: 6)
                 if let key {
                     Text(key)
                         .font(.system(size: 9, weight: .bold))
@@ -223,13 +224,13 @@ struct MainActionButton: View {
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 12)
-            .padding(.vertical, 10)
+            // 固定高度：三个按钮不论字号/图标大小都等高
             .frame(maxWidth: .infinity)
+            .frame(height: 38)
             .background(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
-                    .fill(LinearGradient(
-                        colors: [Theme.accentBright, Color(red: 0.239, green: 0.525, blue: 0.878)],
-                        startPoint: .top, endPoint: .bottom))
+                    .fill(LinearGradient(colors: gradient,
+                                         startPoint: .top, endPoint: .bottom))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
@@ -261,27 +262,33 @@ struct GhostActionButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 5) {
+            HStack(spacing: 7) {
                 Image(systemName: icon)
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(color)
+                    .font(.system(size: 13, weight: .semibold))
                     .fixedSize()
                 Text(title)
-                    .font(.system(size: 11.5, weight: .semibold))
-                    .foregroundStyle(enabled ? color : .secondary)
+                    .font(.system(size: 13, weight: .bold))
+                    .lineLimit(1)
                     .fixedSize()
             }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 10)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 12)
             .frame(maxWidth: .infinity)
+            .frame(height: 38)
             .background(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
-                    .fill(color.opacity(hovering ? 0.22 : 0.13))
+                    .fill(LinearGradient(
+                        colors: [color, color.opacity(hovering ? 0.78 : 0.68)],
+                        startPoint: .top, endPoint: .bottom))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
-                    .strokeBorder(color.opacity(hovering ? 0.55 : 0.32), lineWidth: 1)
+                    .strokeBorder(
+                        LinearGradient(colors: [.white.opacity(hovering ? 0.36 : 0.22), .clear],
+                                       startPoint: .top, endPoint: .center),
+                        lineWidth: 1)
             )
+            .opacity(enabled ? 1 : 0.5)
             .contentShape(RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous))
         }
         .buttonStyle(.plain)
