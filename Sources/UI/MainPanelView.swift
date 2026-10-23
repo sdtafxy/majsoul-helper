@@ -55,7 +55,9 @@ struct MainPanelView: View {
                     Rectangle().fill(Theme.inkHairline).frame(height: 1)
                 }
         }
-        .frame(width: 336)
+        // 跟随窗口宽度（原来固定 336：窗口拉到 630 时两侧留大片空白，
+        // 拉到最窄时又被 336 卡住，和识别窗口的最小宽度对不上）
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(PanelBackground(mode: mode))
         // 墨璃=深色文字环境；白底=浅色；通透=跟随系统
         .environment(\.colorScheme, mode == "glass" ? .dark
