@@ -248,19 +248,19 @@ struct MainPanelView: View {
 
     private var actions: some View {
         HStack(spacing: 8) {
-            MainActionButton(title: "快速", icon: "bolt.fill", key: "⌘↩") {
+            MainActionButton(title: "快速", icon: "bolt.fill") {
                 model.analyze(deep: false)
             }
-
-            GhostActionButton(title: "识别", icon: "rectangle.grid.2x2",
-                              color: Theme.tealBright) {
-                recognize()
-            }
-            .frame(width: 84)
 
             GhostActionButton(title: "深度", icon: "circle.dotted",
                               color: Theme.purpleBright) {
                 model.analyze(deep: true)
+            }
+            .frame(width: 84)
+
+            GhostActionButton(title: "识别", icon: "rectangle.grid.2x2",
+                              color: Theme.tealBright) {
+                recognize()
             }
             .frame(width: 84)
         }

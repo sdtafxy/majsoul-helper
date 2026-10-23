@@ -4,6 +4,8 @@ import SwiftUI
 /// 数据来自 OverlayController（Python overlay_cli）的最近一次识别。
 struct RecognitionPane: View {
     @ObservedObject var overlay: OverlayController
+    /// 关闭窗口（独立浮窗用；嵌在主界面里时为 nil）
+    var onClose: (() -> Void)? = nil
 
     var body: some View {
         let r = overlay.currentResult
@@ -83,6 +85,17 @@ struct RecognitionPane: View {
             StatusBadge(kind: overlay.status.isBusy ? .busy
                             : (overlay.currentResult.hand != nil || !overlay.currentResult.seats.isEmpty ? .ok : .idle),
                         text: overlay.status.isBusy ? "识别中" : "就绪")
+            if let onClose {
+                Button(action: onClose) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 20, height: 18)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .help("关闭识别结果窗口（菜单栏可再唤出）")
+            }
         }
     }
 

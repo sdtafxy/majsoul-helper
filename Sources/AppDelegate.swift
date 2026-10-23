@@ -83,7 +83,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         p.isOpaque = false
         p.backgroundColor = .clear
         finishPanel(p)   // ★ layer 圆角 mask + window 投影（直角边框根治）
-        p.contentMinSize = NSSize(width: 376, height: 360)
+        p.contentMinSize = NSSize(width: 376, height: 430)
         p.contentView = content
 
         let restored = p.setFrameUsingName("MajsoulHelperPanel")
@@ -117,7 +117,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         p.isOpaque = false
         p.backgroundColor = .clear
         finishPanel(p)   // ★ layer 圆角 mask + window 投影（直角边框根治）
-        p.contentMinSize = NSSize(width: 380, height: 520)
+        p.contentMinSize = NSSize(width: 376, height: 520)
         p.contentView = content
 
         let restored = p.setFrameUsingName("MajsoulHelperRecognition")

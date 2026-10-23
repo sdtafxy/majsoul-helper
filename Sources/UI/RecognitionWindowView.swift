@@ -14,10 +14,13 @@ struct RecognitionWindowView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            titleBar
-            Rectangle().fill(Theme.hairline).frame(height: 1)
-            RecognitionPane(overlay: overlay)
-                .padding(Theme.gap)
+            // 顶部只留一条极薄拖动区：原来的外层标题栏（雀头 + 「识别结果」 +
+            // 关闭）与内层 header 的标题重复，改成内层 header 自带关闭按钮。
+            DragStrip(height: 12)
+            RecognitionPane(overlay: overlay) {
+                NotificationCenter.default.post(name: .mhToggleRecognition, object: nil)
+            }
+            .padding(Theme.gap)
         }
         .frame(minWidth: 380, minHeight: 520)
         .background(PanelBackground(mode: model.settings.panelBackground))
@@ -37,30 +40,7 @@ struct RecognitionWindowView: View {
         
     }
 
-    private var titleBar: some View {
-        HStack(spacing: 9) {
-            QueTouMark(width: 30)
-            Text("识别结果")
-                .font(.system(size: 14, weight: .bold))
-            Spacer(minLength: 0)
-            Button {
-                NotificationCenter.default.post(name: .mhToggleRecognition, object: nil)
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.secondary)
-                    .frame(width: 24, height: 20)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .help("关闭识别结果窗口（菜单栏可再唤出）")
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .background {
-            if !SnapshotMode.isActive { RecognitionDragArea() }
-        }
-    }
+
 }
 
 private struct RecognitionDragArea: NSViewRepresentable {

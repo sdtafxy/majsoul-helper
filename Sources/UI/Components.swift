@@ -268,7 +268,7 @@ struct GhostActionButton: View {
                     .fixedSize()
                 Text(title)
                     .font(.system(size: 11.5, weight: .semibold))
-                    .foregroundStyle(.primary.opacity(0.85))
+                    .foregroundStyle(enabled ? color : .secondary)
                     .fixedSize()
             }
             .padding(.horizontal, 8)
@@ -276,11 +276,11 @@ struct GhostActionButton: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
-                    .fill(Theme.inkCard)
+                    .fill(color.opacity(hovering ? 0.22 : 0.13))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous)
-                    .strokeBorder(.primary.opacity(hovering ? 0.14 : 0.07), lineWidth: 1)
+                    .strokeBorder(color.opacity(hovering ? 0.55 : 0.32), lineWidth: 1)
             )
             .contentShape(RoundedRectangle(cornerRadius: Theme.smallRadius, style: .continuous))
         }
@@ -370,3 +370,25 @@ struct InkSegmented<Value: Hashable>: View {
         )
     }
 }
+
+
+/// 极薄拖动条：无边框窗口顶部留一条透明热区，避免与内容视图抢鼠标。
+struct DragStrip: NSViewRepresentable {
+    var height: CGFloat = 10
+
+    func makeNSView(context: Context) -> NSView { DragStripView() }
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    func sizeThatFits(_ proposal: ProposedViewSize, nsView: NSView,
+                      context: Context) -> CGSize? {
+        CGSize(width: proposal.width ?? 0, height: height)
+    }
+}
+
+private final class DragStripView: NSView {
+    override var mouseDownCanMoveWindow: Bool { true }
+    override func mouseDown(with event: NSEvent) {
+        window?.performDrag(with: event)
+    }
+}
+
