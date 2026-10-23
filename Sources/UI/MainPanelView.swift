@@ -209,19 +209,39 @@ struct MainPanelView: View {
             .fill(Theme.inkCardHi))
     }
 
+    /// 还没有结果时的占位卡：介绍底部三个按钮各自做什么。
     private var emptyCard: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "sparkles")
-                .font(.system(size: 22, weight: .light))
-                .foregroundStyle(.tertiary)
-            Text("按 ⌘↩ 快速分析 · ⇧⌘↩ 深度分析")
-                .font(Theme.caption(11))
-                .foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 12) {
+            hintRow(icon: "bolt.fill", tint: Theme.accentBright,
+                    title: "快速", detail: "一两秒给出这一巡打哪张")
+            hintRow(icon: "circle.dotted", tint: .secondary,
+                    title: "深度", detail: "让模型多想一会儿，复杂局面更稳")
+            hintRow(icon: "rectangle.grid.2x2", tint: .secondary,
+                    title: "识别", detail: "只读牌面，不出打牌建议")
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 30)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 22)
+        .padding(.vertical, 22)
         .background(RoundedRectangle(cornerRadius: Theme.heroRadius, style: .continuous)
             .fill(Theme.inkCardHi))
+    }
+
+    private func hintRow(icon: String, tint: Color, title: String, detail: String) -> some View {
+        HStack(spacing: 9) {
+            Image(systemName: icon)
+                .font(.system(size: 11))
+                .foregroundStyle(tint)
+                .frame(width: 16)
+            Text(title)
+                .font(Theme.caption(11))
+                .fontWeight(.semibold)
+                .frame(width: 30, alignment: .leading)
+            Text(detail)
+                .font(Theme.caption(11))
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
     }
 
     // MARK: - 底部操作（主次分级）

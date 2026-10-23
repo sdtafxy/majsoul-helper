@@ -604,6 +604,9 @@ final class AppModel: ObservableObject {
         lastShot = shot.preview
         lastJPEG = shot.jpeg
         shotInfo = "\(shot.pixelWidth)×\(shot.pixelHeight) · \(shot.byteCount / 1024) KB"
+        // 截图拿到就该进下一阶段：识别引擎要跑几百毫秒，
+        // 停留在「截图中」会让人以为截图卡住了。
+        phase = .readingHand
         Log.info("截图完成 \(shotInfo)")
     }
 
