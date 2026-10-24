@@ -191,6 +191,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    func applicationWillTerminate(_ notification: Notification) {
+        // 常驻识别进程必须随 App 一起退出，否则会留下孤儿 python 进程
+        VisionService.shared.shutdown()
+    }
+
     // MARK: - 菜单栏图标
 
     private func buildStatusItem() {

@@ -271,70 +271,29 @@ enum OverlayEngine {
                              lowScore: Double,
                              timeout: TimeInterval,
                              exportDir: String? = nil) async throws -> ExecResult {
-        let proc = Process()
-        proc.executableURL = URL(fileURLWithPath: exe)
-        var argv = prefix + [image, "--low-score", String(lowScore)]
-        if let d = exportDir { argv += ["--export", d] }
-        proc.arguments = argv
-        let out = Pipe()
-        let err = Pipe()
-        proc.standardOutput = out
-        proc.standardError = err
-
-        do { try proc.run() } catch {
-            throw EngineError.pythonNotFound(exe + "（启动失败：\(error.localizedDescription)）")
-        }
-
-        // ★★★ 整段不能有任何同步阻塞 ★★★
-        //   `proc.waitUntilExit()` / `group.wait()` / `lock()` 在 async 上下文里
-        //   都是 "unavailable from asynchronous contexts" —— Swift 5 只是 warning，
-        //   **Swift 6 直接是 error**。本项目语言模式是 .v5，但别欠债。
-        //   做法：把「跑进程 + 读管道」放进一个**非 async 的同步上下文**
-        //   （DispatchQueue 闭包里没有 async 限制），外面用 continuation 包一层。
-        //
-        // ★ 这一段还有两个踩过的坑：
-        //   ① 必须**同时**把 stdout 与 stderr 都读干 —— 只读一个会写满管道死锁。
-        //      stdout 可以到几百 KB（69 张牌的四边形 + 名称）。
-        //   ② errText 曾经误写成 `String(data: outBytes ...)`，
-        //      于是出错时看到的是 stdout 内容，完全指不到真因。
+        // 走常驻进程：一次启动、逐帧复用。省掉每帧 ~150ms 的 Python 冷启动
+        // 与模板加载，引擎内的 canvas/纸掩膜缓存也能跨帧命中。
         let outBytes: Data
-        let errBytes: Data
-        let termStatus: Int32
         do {
-            (outBytes, errBytes, termStatus) = try await withCheckedThrowingContinuation {
-                cont in
+            outBytes = try await withCheckedThrowingContinuation { cont in
                 DispatchQueue.global(qos: .userInitiated).async {
-                    var o = Data(), e = Data()
-                    let g = DispatchGroup()
-                    DispatchQueue.global().async(group: g) {
-                        o = out.fileHandleForReading.readDataToEndOfFile()
+                    do {
+                        let d = try VisionService.shared.request(
+                            image: image, lowScore: lowScore, export: exportDir,
+                            exe: exe, prefix: prefix)
+                        cont.resume(returning: d)
+                    } catch {
+                        cont.resume(throwing: error)
                     }
-                    DispatchQueue.global().async(group: g) {
-                        e = err.fileHandleForReading.readDataToEndOfFile()
-                    }
-                    // 超时兜底：脚本卡住时强杀，不让界面永远转圈
-                    DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-                        if proc.isRunning { proc.terminate() }
-                    }
-                    proc.waitUntilExit()      // 此处是同步上下文，安全
-                    g.wait()                   // 进程已退出，两条读线程必然结束
-                    cont.resume(returning: (o, e, proc.terminationStatus))
                 }
             }
         } catch {
-            return .failure("进程调用失败：\(error.localizedDescription)")
+            return .failure(error.localizedDescription)
         }
 
-        let errText = String(data: errBytes, encoding: .utf8) ?? ""
-        let outText = String(data: outBytes, encoding: .utf8) ?? ""
-        guard termStatus == 0 else {
-            let first = errText.split(separator: "\n").first.map(String.init) ?? ""
-            return .failure(first.isEmpty ? "退出码 \(termStatus)" : first)
-        }
-
-        guard let data = outText.data(using: .utf8),
-              let raw = try? JSONDecoder().decode(RawOut.self, from: data) else {
-            return .failure(outText.isEmpty ? "（无输出）\(errText)" : outText)
+        guard let raw = try? JSONDecoder().decode(RawOut.self, from: outBytes) else {
+            let text = String(data: outBytes, encoding: .utf8) ?? ""
+            return .failure(text.isEmpty ? "（无输出）" : text)
         }
         guard raw.ok else {
             return .failure(raw.error ?? "未知错误")

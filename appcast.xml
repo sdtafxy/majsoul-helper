@@ -8,7 +8,7 @@
             <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/sdtafxy/majsoul-helper/releases/download/v0.1.1/MajsoulHelper-0.1.1.zip" length="65363006" type="application/octet-stream" sparkle:edSignature="XfNSwVlFpMwUTcEXO/8F8UatdJGzr/25am75nTn9EzZY+2Tv3YqKC7uJ/5Uw0qJ95Wfe9QeWW85OHq4/7UgECw=="/>
+            <enclosure url="https://github.com/sdtafxy/majsoul-helper/releases/download/v0.1.1/MajsoulHelper-0.1.1.zip" length="65371673" type="application/octet-stream" sparkle:edSignature="23bt8xmaMEPItIpA3XRqVOd6/l0paYnWPo3LGFl/eAfgXcCd2s4HdFu/qYlFskG5MCSyijPYl3AZmmrNDQ0CDA=="/>
         </item>
     </channel>
 </rss>
