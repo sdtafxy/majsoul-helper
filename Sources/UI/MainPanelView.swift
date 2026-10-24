@@ -60,7 +60,7 @@ struct MainPanelView: View {
         // minWidth/minHeight 同时写在内容层：borderless NSPanel 的
         // contentMinSize 在用户拖拽时不一定生效，内容固有尺寸才是硬约束。
         .frame(minWidth: 376, maxWidth: .infinity,
-               minHeight: 420, maxHeight: .infinity)
+               minHeight: 300, maxHeight: .infinity)
         .background(PanelBackground(mode: mode))
         // 墨璃=深色文字环境；白底=浅色；通透=跟随系统
         .environment(\.colorScheme, mode == "glass" ? .dark

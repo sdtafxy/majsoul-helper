@@ -22,7 +22,7 @@ struct RecognitionWindowView: View {
             }
             .padding(Theme.gap)
         }
-        .frame(minWidth: 376, minHeight: 520)
+        .frame(minWidth: 376, minHeight: 380)
         .background(PanelBackground(mode: model.settings.panelBackground))
         .environment(\.colorScheme,
                      model.settings.panelBackground == "solid" ? .light : .dark)

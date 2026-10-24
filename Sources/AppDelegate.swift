@@ -83,8 +83,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         p.isOpaque = false
         p.backgroundColor = .clear
         finishPanel(p)   // ★ layer 圆角 mask + window 投影（直角边框根治）
-        p.contentMinSize = NSSize(width: 376, height: 420)
-        p.minSize = NSSize(width: 376, height: 420)   // borderless 面板用 minSize 才稳妥
+        // 高度按「空状态内容」实测：顶栏 44 + 来源栏 44 + 提示卡 110 +
+        // 按钮行 66 ≈ 264，留一成余量取 300（下方内容超出时滚动）
+        p.contentMinSize = NSSize(width: 376, height: 300)
+        p.minSize = NSSize(width: 376, height: 300)   // borderless 面板用 minSize 才稳妥
         p.contentView = content
 
         let restored = p.setFrameUsingName("MajsoulHelperPanel")
@@ -119,7 +121,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         p.isOpaque = false
         p.backgroundColor = .clear
         finishPanel(p)   // ★ layer 圆角 mask + window 投影（直角边框根治）
-        p.contentMinSize = NSSize(width: 376, height: 520)
+        // 高度按「空状态内容」实测：标题行 26 + 图层开关 160 + 提示 120 +
+        // 间距 60 ≈ 366，留一成余量取 380
+        p.contentMinSize = NSSize(width: 376, height: 380)
+        p.minSize = NSSize(width: 376, height: 380)
         p.contentView = content
 
         let restored = p.setFrameUsingName("MajsoulHelperRecognition")
