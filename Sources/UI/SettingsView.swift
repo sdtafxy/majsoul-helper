@@ -365,26 +365,14 @@ struct SettingsView: View {
                           range: 0.5...1.0, step: 0.05,
                           text: String(format: "%.2f", model.settings.jpegQuality))
 
-                HStack(spacing: 10) {
-                    Text("排查包保存位置")
-                        .font(.system(size: 13))
-                    Spacer()
-                    Text(exportDirDisplay)
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                    Button("选择…") { pickExportDir() }
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
-                    if !model.settings.debugExportDir.isEmpty {
-                        Button("恢复默认") {
-                            model.updateSettings { $0.debugExportDir = "" }
-                        }
-                        .buttonStyle(.borderless)
-                        .controlSize(.small)
-                    }
-                }
+                dirRow("截图保存位置",
+                       path: Binding(get: { model.settings.captureSaveDir },
+                                     set: { v in model.updateSettings { $0.captureSaveDir = v } }),
+                       pickMessage: "选择截图的保存位置")
+                dirRow("排查包保存位置",
+                       path: Binding(get: { model.settings.debugExportDir },
+                                     set: { v in model.updateSettings { $0.debugExportDir = v } }),
+                       pickMessage: "选择排查包的保存位置")
                 Text("识别结果不对时，导出的排查包会存放在这个目录下")
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
@@ -392,26 +380,43 @@ struct SettingsView: View {
         }
     }
 
-    /// 排查包目录的展示文本（空 = 默认 ~/Downloads）
-    private var exportDirDisplay: String {
-        let d = model.settings.debugExportDir
-        return d.isEmpty ? "~/Downloads" : d.replacingOccurrences(
-            of: FileManager.default.homeDirectoryForCurrentUser.path, with: "~")
-    }
-
-    private func pickExportDir() {
-        let panel = NSOpenPanel()
-        panel.canChooseDirectories = true
-        panel.canChooseFiles = false
-        panel.allowsMultipleSelection = false
-        panel.canCreateDirectories = true
-        panel.prompt = "使用此文件夹"
-        panel.message = "选择排查包的保存位置"
-        panel.directoryURL = model.settings.debugExportDir.isEmpty
-            ? FileManager.default.homeDirectoryForCurrentUser
-            : URL(fileURLWithPath: model.settings.debugExportDir)
-        if panel.runModal() == .OK, let url = panel.url {
-            model.updateSettings { $0.debugExportDir = url.path }
+    /// 目录选择行：显示当前路径（家目录缩写成 ~）+ 选择/恢复默认。空 = ~/Downloads
+    private func dirRow(_ title: String, path: Binding<String>,
+                        pickMessage: String) -> some View {
+        HStack(spacing: 10) {
+            Text(title)
+                .font(.system(size: 13))
+            Spacer()
+            Text(path.wrappedValue.isEmpty
+                 ? "~/Downloads"
+                 : path.wrappedValue.replacingOccurrences(
+                    of: FileManager.default.homeDirectoryForCurrentUser.path, with: "~"))
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+            Button("选择…") {
+                let panel = NSOpenPanel()
+                panel.canChooseDirectories = true
+                panel.canChooseFiles = false
+                panel.allowsMultipleSelection = false
+                panel.canCreateDirectories = true
+                panel.prompt = "使用此文件夹"
+                panel.message = pickMessage
+                panel.directoryURL = path.wrappedValue.isEmpty
+                    ? FileManager.default.homeDirectoryForCurrentUser
+                    : URL(fileURLWithPath: path.wrappedValue)
+                if panel.runModal() == .OK, let url = panel.url {
+                    path.wrappedValue = url.path
+                }
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            if !path.wrappedValue.isEmpty {
+                Button("恢复默认") { path.wrappedValue = "" }
+                    .buttonStyle(.borderless)
+                    .controlSize(.small)
+            }
         }
     }
 

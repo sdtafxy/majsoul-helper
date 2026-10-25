@@ -125,6 +125,18 @@ struct RecognitionPane: View {
 
                 Spacer(minLength: 0)
 
+                Button { overlay.captureOnly() } label: {
+                    Label("截图", systemImage: "camera")
+                        .font(Theme.label(10.5))
+                        .padding(.horizontal, 8).padding(.vertical, 3.5)
+                        .background(Capsule().fill(Color.primary.opacity(0.06)))
+                        .foregroundStyle(.secondary)
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .disabled(overlay.status.isBusy || overlay.selectedWindowID == 0)
+                .help("只截一张当前画面存到「截图保存位置」（默认下载文件夹），不跑识别")
+
                 Button { overlay.exportPackage() } label: {
                     Label("排查包", systemImage: "shippingbox")
                         .font(Theme.label(10.5))

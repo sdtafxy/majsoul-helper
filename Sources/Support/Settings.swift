@@ -73,6 +73,9 @@ struct Settings: Codable, Equatable {
     /// 浮窗背景效果：glass 墨璃（默认）/ solid 白底 / clear 通透
     var panelBackground: String = "glass"
 
+    /// 截图保存目录（识别窗口「截图」按钮用）。空字符串 = 默认的 ~/Downloads。
+    var captureSaveDir: String = ""
+
     /// 排查包保存目录。空字符串 = 默认的 ~/Downloads。
     var debugExportDir: String = ""
 
@@ -112,6 +115,7 @@ struct Settings: Codable, Equatable {
         overlayTheme = try c.decodeIfPresent(OverlayTheme.self, forKey: .overlayTheme) ?? d.overlayTheme
         panelBackground = try c.decodeIfPresent(String.self, forKey: .panelBackground) ?? d.panelBackground
         debugExportDir = try c.decodeIfPresent(String.self, forKey: .debugExportDir) ?? d.debugExportDir
+        captureSaveDir = try c.decodeIfPresent(String.self, forKey: .captureSaveDir) ?? d.captureSaveDir
     }
 }
 

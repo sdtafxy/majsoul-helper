@@ -212,11 +212,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(menuItem("主浮窗", #selector(onTogglePanel), ""))
         menu.addItem(menuItem("识别结果", #selector(onToggleRecognition), ""))
         menu.addItem(.separator())
+        menu.addItem(menuItem("快速", #selector(onQuickAnalyze), ""))
+        menu.addItem(menuItem("深度", #selector(onDeepAnalyze), ""))
         menu.addItem(menuItem("识别", #selector(onRecognizeOnly), ""))
         // ★ 2026-10-18 用户反馈：statusItem 菜单上的快捷键（⌘⏎/⌥⏎）实际不生效
         //   （只在该菜单展开时可用）——移出快捷键，菜单里也不再显示提示。
-        menu.addItem(menuItem("快速", #selector(onQuickAnalyze), ""))
-        menu.addItem(menuItem("分析", #selector(onDeepAnalyze), ""))
         menu.addItem(.separator())
         menu.addItem(menuItem("设置…", #selector(onOpenSettings), ","))
         menu.addItem(menuItem("检查更新…", #selector(onCheckUpdates), ""))
@@ -388,7 +388,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     self.overlayCtrl.runNow()
                     self.pickerPanel?.orderOut(nil)
                 }))
-            let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 340, height: 400),
+            let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 630, height: 420),
                             styleMask: [.borderless, .nonactivatingPanel],
                             backing: .buffered, defer: false)
             p.level = .floating

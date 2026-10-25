@@ -224,6 +224,48 @@ final class OverlayController: ObservableObject {
         }
     }
 
+    /// 只截一张存盘，不跑识别。
+    /// 识别窗口的「截图」按钮用：想把当前画面留下来（发 issue / 存档）时，
+    /// 不必等识别跑完。存到设置里的「截图保存位置」，默认 ~/Downloads。
+    func captureOnly() {
+        let id = selectedWindowID
+        guard id != 0 else { status = .idle; return }
+        guard !busy else { return }
+        guard ScreenPermission.isGranted else {
+            status = .waitingPermission
+            ScreenPermission.request()
+            return
+        }
+        busy = true
+        status = .running("截图")
+        Task {
+            do {
+                let shot = try await ScreenCaptureService.capture(
+                    windowID: id, maxSide: 2400, jpegQuality: 0.92)
+                let custom = ConfigStore.shared.settings.captureSaveDir
+                let dir = custom.isEmpty
+                    ? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Downloads")
+                    : URL(fileURLWithPath: custom)
+                try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+                let name = "MajsoulHelper-shot-\(Int(Date().timeIntervalSince1970)).jpg"
+                let url = dir.appendingPathComponent(name)
+                try shot.jpeg.write(to: url)
+                await MainActor.run {
+                    self.busy = false
+                    self.status = .running("截图已保存")
+                    Log.info("Overlay: 截图 → \(url.path)")
+                    NSWorkspace.shared.activateFileViewerSelecting([url])
+                }
+            } catch {
+                await MainActor.run {
+                    self.busy = false
+                    self.status = .failed(error.localizedDescription)
+                    Log.error("Overlay: 截图失败 \(error)")
+                }
+            }
+        }
+    }
+
     /// 展示一份识别结果：存 lastResult + 状态 + 图层（供「识别」与「分析」两条路共用）。
     func applyResult(_ r: OverlayResult) {
         lastResult = r

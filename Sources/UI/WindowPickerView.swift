@@ -20,7 +20,8 @@ struct WindowPickerView: View {
                 windowList
             }
         }
-        .frame(width: 340, height: 400)
+        // 宽度与主浮窗一致（原来是 340，和主浮窗并排时明显窄一截）
+        .frame(width: 630, height: 420)
         .background(PanelBackground(mode: mode))
         .environment(\.colorScheme, mode == "solid" ? .light : .dark)
         .clipShape(RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous))

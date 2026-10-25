@@ -63,7 +63,13 @@
 
 ## 关于识别
 
-读牌来自 [majsoul-vision](https://github.com/sdtafxy/majsoul-vision)，纯本地算法，不联网、不加载模型。想在自己的脚本里用，也可以单独拿它跑：
+读牌来自 [majsoul-vision](https://github.com/sdtafxy/majsoul-vision)，纯本地算法，不联网、不加载模型。
+
+界面配色会影响识别的稳定性。目前在**蓝色 / 绿色桌布**搭配**黄色 / 绿色牌底**下测试通过；其他图案组合没有覆盖，不保证准确率。
+
+遇到认错的牌，点识别窗口的「排查包」按钮，把导出的整个文件夹附到 issue 里——里面是当时那张截图、识别结果和标注图，够定位问题。
+
+想在自己的脚本里用，也可以单独拿它跑：
 
 ```bash
 python recognize.py 截图.png
