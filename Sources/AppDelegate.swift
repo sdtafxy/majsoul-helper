@@ -388,7 +388,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     self.overlayCtrl.runNow()
                     self.pickerPanel?.orderOut(nil)
                 }))
-            let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 630, height: 420),
+            let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: panel?.frame.width ?? 630, height: 420),
                             styleMask: [.borderless, .nonactivatingPanel],
                             backing: .buffered, defer: false)
             p.level = .floating
@@ -444,6 +444,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // 跳过来（2026-10-16 用户反馈）。隐藏时设位置无副作用，随时可调。
     private func repositionPicker() {
         guard let p = pickerPanel, let main = panel else { return }
+        // 宽度跟随主浮窗当前宽度（用户拉伸主浮窗后，选择面板不再是固定值）
+        p.setContentSize(NSSize(width: main.frame.width, height: 420))
         p.setFrameOrigin(NSPoint(x: main.frame.minX,
                                  y: main.frame.minY - p.frame.height - 10))
     }

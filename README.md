@@ -4,7 +4,10 @@
 
 ![Platform](https://img.shields.io/badge/platform-macOS%2014%2B-black?style=for-the-badge&logo=apple)
 ![Swift](https://img.shields.io/badge/swift-5.9-orange?style=for-the-badge&logo=swift)
-![Release](https://img.shields.io/badge/release-v0.1.1-4B8BBE?style=for-the-badge)
+![Release](https://img.shields.io/github/v/release/sdtafxy/majsoul-helper?style=for-the-badge&label=release&color=4B8BBE)
+![Downloads](https://img.shields.io/github/downloads/sdtafxy/majsoul-helper/total?style=for-the-badge&label=downloads&color=2E9E6B)
+![Stars](https://img.shields.io/github/stars/sdtafxy/majsoul-helper?style=for-the-badge&label=stars&color=E0A020)
+![Last commit](https://img.shields.io/github/last-commit/sdtafxy/majsoul-helper?style=for-the-badge&label=last%20commit&color=6E6E6E)
 ![License](https://img.shields.io/badge/license-MIT-3DA639?style=for-the-badge)
 [![Engine](https://img.shields.io/badge/engine-majsoul--vision-8A2BE2?style=for-the-badge)](https://github.com/sdtafxy/majsoul-vision)
 

@@ -412,11 +412,10 @@ struct SettingsView: View {
             }
             .buttonStyle(.bordered)
             .controlSize(.small)
-            if !path.wrappedValue.isEmpty {
-                Button("恢复默认") { path.wrappedValue = "" }
-                    .buttonStyle(.borderless)
-                    .controlSize(.small)
-            }
+            Button("恢复默认") { path.wrappedValue = "" }
+                .buttonStyle(.borderless)
+                .controlSize(.small)
+                .disabled(path.wrappedValue.isEmpty)
         }
     }
 

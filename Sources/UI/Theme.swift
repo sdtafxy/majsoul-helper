@@ -62,7 +62,7 @@ enum Theme {
     // ── 牌面大小（三挡，设置调节）──
     static var tileScaleLevel: Int = 1
     static var baseTileScale: CGFloat {
-        switch tileScaleLevel { case 0: return 0.82; case 2: return 1.5; default: return 1.0 }
+        switch tileScaleLevel { case 0: return 0.82; case 2: return 1.9; default: return 1.0 }
     }
 
     // ── 字体（层级）──

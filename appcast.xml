@@ -3,12 +3,12 @@
     <channel>
         <title>MajsoulHelper</title>
         <item>
-            <title>0.1.1</title>
-            <sparkle:version>2</sparkle:version>
-            <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+            <title>0.1.2</title>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>0.1.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <sparkle:hardwareRequirements>arm64</sparkle:hardwareRequirements>
-            <enclosure url="https://github.com/sdtafxy/majsoul-helper/releases/download/v0.1.1/MajsoulHelper-0.1.1.zip" length="65373830" type="application/octet-stream" sparkle:edSignature="lVs62jh3bIL8h7+ZLTRGF4bsCNrpT2lbZ6Vf03DXrv8lJ4eHM+ObDiC1gnlKnHx9ExVbxRX166N18AZsJaGMCA=="/>
+            <enclosure url="https://github.com/sdtafxy/majsoul-helper/releases/download/v0.1.2/MajsoulHelper-0.1.2.zip" length="65373964" type="application/octet-stream" sparkle:edSignature="fS0GuUpMeL305NcBksrQ9n4/8MV+USCtMuZxBb7GzJHxwGwDzCBW09ovA2Om00GwuVmOEC0wvVNJ4znh/4VDCA=="/>
         </item>
     </channel>
 </rss>

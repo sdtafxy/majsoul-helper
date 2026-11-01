@@ -20,8 +20,8 @@ struct WindowPickerView: View {
                 windowList
             }
         }
-        // 宽度与主浮窗一致（原来是 340，和主浮窗并排时明显窄一截）
-        .frame(width: 630, height: 420)
+        // 尺寸跟随容器（窗口侧按主浮窗当前宽度设置，见 AppDelegate）
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(PanelBackground(mode: mode))
         .environment(\.colorScheme, mode == "solid" ? .light : .dark)
         .clipShape(RoundedRectangle(cornerRadius: Theme.panelRadius, style: .continuous))
